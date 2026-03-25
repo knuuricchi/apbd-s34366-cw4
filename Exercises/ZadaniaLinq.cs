@@ -1,20 +1,10 @@
 using LinqConsoleLab.PL.Data;
+using LinqConsoleLab.PL.Models;
 
 namespace LinqConsoleLab.PL.Exercises;
 
 public sealed class ZadaniaLinq
 {
-    /// <summary>
-    /// Zadanie:
-    /// Wyszukaj wszystkich studentów mieszkających w Warsaw.
-    /// Zwróć numer indeksu, pełne imię i nazwisko oraz miasto.
-    ///
-    ///
-    /// SQL:
-    /// SELECT NumerIndeksu, Imie, Nazwisko, Miasto
-    /// FROM Studenci
-    /// WHERE Miasto = 'Warsaw';
-    /// </summary>
     public IEnumerable<string> Zadanie01_StudenciZWarszawy()
     {
         var query = from s in DaneUczelni.Studenci
@@ -23,19 +13,11 @@ public sealed class ZadaniaLinq
         
         return query;
     }
-
-    /// <summary>
-    /// Zadanie:
-    /// Przygotuj listę adresów e-mail wszystkich studentów.
-    /// Użyj projekcji, tak aby w wyniku nie zwracać całych obiektów.
-    ///
-    /// SQL:
-    /// SELECT Email
-    /// FROM Studenci;
-    /// </summary>
+    
     public IEnumerable<string> Zadanie02_AdresyEmailStudentow()
     {
-        throw Niezaimplementowano(nameof(Zadanie02_AdresyEmailStudentow));
+        return DaneUczelni.Studenci
+            .Select(s => s.Email);
     }
 
     /// <summary>
