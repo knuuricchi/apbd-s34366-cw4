@@ -53,8 +53,24 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie04_PierwszyPrzedmiotAnalityczny()
     {
-        throw Niezaimplementowano(nameof(Zadanie04_PierwszyPrzedmiotAnalityczny));
+        var query = 
+            (
+                from p in DaneUczelni.Przedmioty
+                where p.Kategoria == "Analytics"
+                orderby p.DataStartu
+                select p
+                )
+            .FirstOrDefault();
+
+        if (query is null)
+            return new[] { "Brak przedmiotu z kategorii Analytics." };
+
+        return new[]
+        {
+            $"{query.Nazwa}"
+        };
     }
+
     
     public IEnumerable<string> Zadanie05_CzyIstniejeNieaktywneZapisanie()
     {
