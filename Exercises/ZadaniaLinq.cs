@@ -57,17 +57,7 @@ public sealed class ZadaniaLinq
         var res = DaneUczelni.Zapisy.Any(e => e.CzyAktywny) ? "Yes" : "No";
         return [res];
     }
-
-    /// <summary>
-    /// Zadanie:
-    /// Sprawdź, czy każdy prowadzący ma uzupełnioną nazwę katedry.
-    /// Warto użyć metody, która weryfikuje warunek dla całej kolekcji.
-    ///
-    /// SQL:
-    /// SELECT CASE WHEN COUNT(*) = COUNT(Katedra)
-    /// THEN 1 ELSE 0 END
-    /// FROM Prowadzacy;
-    /// </summary>
+    
     public IEnumerable<string> Zadanie06_CzyWszyscyProwadzacyMajaKatedre()
     {
         bool czyKazdyMaKatedre =
@@ -78,19 +68,14 @@ public sealed class ZadaniaLinq
             czyKazdyMaKatedre ? "No" : "Yes",
         };
     }
-
-    /// <summary>
-    /// Zadanie:
-    /// Policz, ile aktywnych zapisów znajduje się w systemie.
-    ///
-    /// SQL:
-    /// SELECT COUNT(*)
-    /// FROM Zapisy
-    /// WHERE CzyAktywny = 1;
-    /// </summary>
+    
     public IEnumerable<string> Zadanie07_LiczbaAktywnychZapisow()
     {
-        throw Niezaimplementowano(nameof(Zadanie07_LiczbaAktywnychZapisow));
+        var query =
+            DaneUczelni.Zapisy
+                .Count(z => z.CzyAktywny.Equals(true))
+                .ToString();
+        return [query];
     }
 
     /// <summary>
