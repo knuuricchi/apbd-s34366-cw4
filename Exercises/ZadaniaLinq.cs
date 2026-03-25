@@ -9,6 +9,7 @@ public sealed class ZadaniaLinq
     /// Wyszukaj wszystkich studentów mieszkających w Warsaw.
     /// Zwróć numer indeksu, pełne imię i nazwisko oraz miasto.
     ///
+    ///
     /// SQL:
     /// SELECT NumerIndeksu, Imie, Nazwisko, Miasto
     /// FROM Studenci
@@ -16,7 +17,11 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie01_StudenciZWarszawy()
     {
-        throw Niezaimplementowano(nameof(Zadanie01_StudenciZWarszawy));
+        var query = from s in DaneUczelni.Studenci
+            where s.Miasto.Equals("Warsaw")
+            select $"{s.NumerIndeksu}, {s.Imie}, {s.Nazwisko}, {s.Miasto}";
+        
+        return query;
     }
 
     /// <summary>
