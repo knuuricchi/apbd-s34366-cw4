@@ -7,7 +7,8 @@ public sealed class ZadaniaLinq
 {
     public IEnumerable<string> Zadanie01_StudenciZWarszawy()
     {
-        var query = from s in DaneUczelni.Studenci
+        var query = 
+            from s in DaneUczelni.Studenci
             where s.Miasto.Equals("Warsaw")
             select $"{s.NumerIndeksu}, {s.Imie}, {s.Nazwisko}, {s.Miasto}";
         
@@ -32,7 +33,12 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie03_StudenciPosortowani()
     {
-        throw Niezaimplementowano(nameof(Zadanie03_StudenciPosortowani));
+        var query = 
+            from s in DaneUczelni.Studenci
+            orderby s.Nazwisko ascending
+            select $"{s.NumerIndeksu}, {s.Imie}, {s.Nazwisko}, {s.Miasto}";
+        
+        return query;
     }
 
     /// <summary>
@@ -49,19 +55,7 @@ public sealed class ZadaniaLinq
     {
         throw Niezaimplementowano(nameof(Zadanie04_PierwszyPrzedmiotAnalityczny));
     }
-
-    /// <summary>
-    /// Zadanie:
-    /// Sprawdź, czy w danych istnieje przynajmniej jeden nieaktywny zapis.
-    /// Zwróć jedno zdanie z odpowiedzią True/False albo Tak/Nie.
-    ///
-    /// SQL:
-    /// SELECT CASE WHEN EXISTS (
-    ///     SELECT 1
-    ///     FROM Zapisy
-    ///     WHERE CzyAktywny = 0
-    /// ) THEN 1 ELSE 0 END;
-    /// </summary>
+    
     public IEnumerable<string> Zadanie05_CzyIstniejeNieaktywneZapisanie()
     {
         var res = DaneUczelni.Zapisy.Any(e => e.CzyAktywny) ? "Yes" : "No";
