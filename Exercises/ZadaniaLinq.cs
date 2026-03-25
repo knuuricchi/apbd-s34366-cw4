@@ -20,17 +20,7 @@ public sealed class ZadaniaLinq
         return DaneUczelni.Studenci
             .Select(s => s.Email);
     }
-
-    /// <summary>
-    /// Zadanie:
-    /// Posortuj studentów alfabetycznie po nazwisku, a następnie po imieniu.
-    /// Zwróć numer indeksu i pełne imię i nazwisko.
-    ///
-    /// SQL:
-    /// SELECT NumerIndeksu, Imie, Nazwisko
-    /// FROM Studenci
-    /// ORDER BY Nazwisko, Imie;
-    /// </summary>
+    
     public IEnumerable<string> Zadanie03_StudenciPosortowani()
     {
         var query = 
@@ -40,17 +30,7 @@ public sealed class ZadaniaLinq
         
         return query;
     }
-
-    /// <summary>
-    /// Zadanie:
-    /// Znajdź pierwszy przedmiot z kategorii Analytics.
-    /// Jeżeli taki przedmiot nie istnieje, zwróć komunikat tekstowy.
-    ///
-    /// SQL:
-    /// SELECT TOP 1 Nazwa, DataStartu
-    /// FROM Przedmioty
-    /// WHERE Kategoria = 'Analytics';
-    /// </summary>
+    
     public IEnumerable<string> Zadanie04_PierwszyPrzedmiotAnalityczny()
     {
         var query = 
@@ -90,7 +70,13 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie06_CzyWszyscyProwadzacyMajaKatedre()
     {
-        throw Niezaimplementowano(nameof(Zadanie06_CzyWszyscyProwadzacyMajaKatedre));
+        bool czyKazdyMaKatedre =
+            DaneUczelni.Prowadzacy.All(p => !string.IsNullOrEmpty(p.Katedra)
+            );
+        return new[]
+        {
+            czyKazdyMaKatedre ? "No" : "Yes",
+        };
     }
 
     /// <summary>
