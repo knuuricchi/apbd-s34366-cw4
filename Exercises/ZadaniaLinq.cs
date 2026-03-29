@@ -137,22 +137,16 @@ public sealed class ZadaniaLinq
 
         return query;
     }
-
-    /// <summary>
-    /// Zadanie:
-    /// Oblicz średnią ocenę końcową dla każdego przedmiotu.
-    /// Pomiń rekordy, w których ocena końcowa ma wartość null.
-    ///
-    /// SQL:
-    /// SELECT p.Nazwa, AVG(z.OcenaKoncowa)
-    /// FROM Zapisy z
-    /// JOIN Przedmioty p ON p.Id = z.PrzedmiotId
-    /// WHERE z.OcenaKoncowa IS NOT NULL
-    /// GROUP BY p.Nazwa;
-    /// </summary>
+    
     public IEnumerable<string> Zadanie14_SredniaOcenaNaPrzedmiot()
     {
-        throw Niezaimplementowano(nameof(Zadanie14_SredniaOcenaNaPrzedmiot));
+        var query = from z in DaneUczelni.Zapisy
+            where z.OcenaKoncowa != null
+            join p in DaneUczelni.Przedmioty on z.PrzedmiotId equals p.Id
+            group z by p.Nazwa into g
+            select $"{g.Key}: {g.Average(x => x.OcenaKoncowa):F2}";
+
+        return query;
     }
 
     /// <summary>
