@@ -127,20 +127,15 @@ public sealed class ZadaniaLinq
             
             return query;
     }
-
-    /// <summary>
-    /// Zadanie:
-    /// Pogrupuj zapisy według przedmiotu i zwróć nazwę przedmiotu oraz liczbę zapisów.
-    ///
-    /// SQL:
-    /// SELECT p.Nazwa, COUNT(*)
-    /// FROM Zapisy z
-    /// JOIN Przedmioty p ON p.Id = z.PrzedmiotId
-    /// GROUP BY p.Nazwa;
-    /// </summary>
+    
     public IEnumerable<string> Zadanie13_GrupowanieZapisowWedlugPrzedmiotu()
     {
-        throw Niezaimplementowano(nameof(Zadanie13_GrupowanieZapisowWedlugPrzedmiotu));
+        var query = from z in DaneUczelni.Zapisy
+            join p in DaneUczelni.Przedmioty on z.PrzedmiotId equals p.Id
+            group z by p.Nazwa into g
+            select $"{g.Key}: {g.Count()}";
+
+        return query;
     }
 
     /// <summary>
@@ -190,6 +185,7 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie16_NajwyzszaOcenaKazdegoStudenta()
     {
+        
         throw Niezaimplementowano(nameof(Zadanie16_NajwyzszaOcenaKazdegoStudenta));
     }
 
