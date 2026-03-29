@@ -148,21 +148,15 @@ public sealed class ZadaniaLinq
 
         return query;
     }
-
-    /// <summary>
-    /// Zadanie:
-    /// Dla każdego prowadzącego policz liczbę przypisanych przedmiotów.
-    /// W wyniku zwróć pełne imię i nazwisko oraz liczbę przedmiotów.
-    ///
-    /// SQL:
-    /// SELECT pr.Imie, pr.Nazwisko, COUNT(p.Id)
-    /// FROM Prowadzacy pr
-    /// LEFT JOIN Przedmioty p ON p.ProwadzacyId = pr.Id
-    /// GROUP BY pr.Imie, pr.Nazwisko;
-    /// </summary>
+    
     public IEnumerable<string> Zadanie15_ProwadzacyILiczbaPrzedmiotow()
     {
-        throw Niezaimplementowano(nameof(Zadanie15_ProwadzacyILiczbaPrzedmiotow));
+        var query = from z in DaneUczelni.Zapisy
+            join p in DaneUczelni.Przedmioty on z.PrzedmiotId equals p.Id
+            group z by p.Nazwa into g
+            select $"{g.Key}: {g.Count()}";
+
+        return query;
     }
 
     /// <summary>
