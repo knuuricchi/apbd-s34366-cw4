@@ -1,3 +1,4 @@
+using System.Data.Common;
 using LinqConsoleLab.PL.Data;
 using LinqConsoleLab.PL.Models;
 
@@ -77,19 +78,16 @@ public sealed class ZadaniaLinq
                 .ToString();
         return [query];
     }
-
-    /// <summary>
-    /// Zadanie:
-    /// Pobierz listę unikalnych miast studentów i posortuj ją rosnąco.
-    ///
-    /// SQL:
-    /// SELECT DISTINCT Miasto
-    /// FROM Studenci
-    /// ORDER BY Miasto;
-    /// </summary>
+    
     public IEnumerable<string> Zadanie08_UnikalneMiastaStudentow()
     {
-        throw Niezaimplementowano(nameof(Zadanie08_UnikalneMiastaStudentow));
+        var query = (from s in DaneUczelni.Studenci
+                select s.Miasto)
+            .Distinct()
+            .OrderBy(m => m)
+            .ToList();
+        
+        return query;
     }
 
     /// <summary>
