@@ -97,20 +97,14 @@ public sealed class ZadaniaLinq
             .Take(3)
             .Select(z => $"{z.DataZapisu:yyyy-MM-dd}, StudentId: {z.StudentId}, PrzedmiotId: {z.PrzedmiotId}");
     }
-
-    /// <summary>
-    /// Zadanie:
-    /// Zaimplementuj prostą paginację dla listy przedmiotów.
-    /// Załóż stronę o rozmiarze 2 i zwróć drugą stronę danych.
-    ///
-    /// SQL:
-    /// SELECT Nazwa, Kategoria
-    /// FROM Przedmioty
-    /// ORDER BY Nazwa
-    /// OFFSET 2 ROWS FETCH NEXT 2 ROWS ONLY;
-    /// </summary>
+    
     public IEnumerable<string> Zadanie10_DrugaStronaPrzedmiotow()
     {
+        return DaneUczelni.Przedmioty
+            .OrderBy(p => p.Nazwa)
+            .Skip(2) // Pomijamy pierwsze 2 rekordy (strona 1)
+            .Take(2) // Pobieramy kolejne 2 rekordy (strona 2)
+            .Select(p => $"{p.Nazwa}, {p.Kategoria}");
         throw Niezaimplementowano(nameof(Zadanie10_DrugaStronaPrzedmiotow));
     }
 
