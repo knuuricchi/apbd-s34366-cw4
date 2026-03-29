@@ -89,20 +89,13 @@ public sealed class ZadaniaLinq
         
         return query;
     }
-
-    /// <summary>
-    /// Zadanie:
-    /// Zwróć trzy najnowsze zapisy na przedmioty.
-    /// W wyniku pokaż datę zapisu, identyfikator studenta i identyfikator przedmiotu.
-    ///
-    /// SQL:
-    /// SELECT TOP 3 DataZapisu, StudentId, PrzedmiotId
-    /// FROM Zapisy
-    /// ORDER BY DataZapisu DESC;
-    /// </summary>
+    
     public IEnumerable<string> Zadanie09_TrzyNajnowszeZapisy()
     {
-        throw Niezaimplementowano(nameof(Zadanie09_TrzyNajnowszeZapisy));
+        return DaneUczelni.Zapisy
+            .OrderByDescending(z => z.DataZapisu)
+            .Take(3)
+            .Select(z => $"{z.DataZapisu:yyyy-MM-dd}, StudentId: {z.StudentId}, PrzedmiotId: {z.PrzedmiotId}");
     }
 
     /// <summary>
