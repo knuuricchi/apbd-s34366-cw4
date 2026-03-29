@@ -102,41 +102,30 @@ public sealed class ZadaniaLinq
     {
         return DaneUczelni.Przedmioty
             .OrderBy(p => p.Nazwa)
-            .Skip(2) // Pomijamy pierwsze 2 rekordy (strona 1)
-            .Take(2) // Pobieramy kolejne 2 rekordy (strona 2)
+            .Skip(2)
+            .Take(2)
             .Select(p => $"{p.Nazwa}, {p.Kategoria}");
-        throw Niezaimplementowano(nameof(Zadanie10_DrugaStronaPrzedmiotow));
     }
-
-    /// <summary>
-    /// Zadanie:
-    /// Połącz studentów z zapisami po StudentId.
-    /// Zwróć pełne imię i nazwisko studenta oraz datę zapisu.
-    ///
-    /// SQL:
-    /// SELECT s.Imie, s.Nazwisko, z.DataZapisu
-    /// FROM Studenci s
-    /// JOIN Zapisy z ON s.Id = z.StudentId;
-    /// </summary>
+    
     public IEnumerable<string> Zadanie11_PolaczStudentowIZapisy()
     {
-        throw Niezaimplementowano(nameof(Zadanie11_PolaczStudentowIZapisy));
-    }
+        var query =
+            from s in DaneUczelni.Studenci
+            join z in DaneUczelni.Zapisy on s.Id equals z.StudentId
+            select $"{s.Imie} {s.Nazwisko}, Data zapisu: {z.DataZapisu:yyyy-MM-dd}";
 
-    /// <summary>
-    /// Zadanie:
-    /// Przygotuj wszystkie pary student-przedmiot na podstawie zapisów.
-    /// Użyj podejścia, które pozwoli spłaszczyć dane do jednej sekwencji wyników.
-    ///
-    /// SQL:
-    /// SELECT s.Imie, s.Nazwisko, p.Nazwa
-    /// FROM Zapisy z
-    /// JOIN Studenci s ON s.Id = z.StudentId
-    /// JOIN Przedmioty p ON p.Id = z.PrzedmiotId;
-    /// </summary>
+        return query;
+    }
+    
     public IEnumerable<string> Zadanie12_ParyStudentPrzedmiot()
     {
-        throw Niezaimplementowano(nameof(Zadanie12_ParyStudentPrzedmiot));
+            var query =
+                from z in DaneUczelni.Zapisy
+                join s in DaneUczelni.Studenci on z.StudentId equals s.Id
+                join p in DaneUczelni.Przedmioty on z.PrzedmiotId equals p.Id
+                select $"{s.Imie} {s.Nazwisko} - {p.Nazwa}";
+            
+            return query;
     }
 
     /// <summary>
