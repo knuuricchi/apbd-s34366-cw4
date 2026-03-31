@@ -169,20 +169,7 @@ public sealed class ZadaniaLinq
         
         return query;
     }
-
-    /// <summary>
-    /// Wyzwanie:
-    /// Znajdź studentów, którzy mają więcej niż jeden aktywny zapis.
-    /// Zwróć pełne imię i nazwisko oraz liczbę aktywnych przedmiotów.
-    ///
-    /// SQL:
-    /// SELECT s.Imie, s.Nazwisko, COUNT(*)
-    /// FROM Studenci s
-    /// JOIN Zapisy z ON s.Id = z.StudentId
-    /// WHERE z.CzyAktywny = 1
-    /// GROUP BY s.Imie, s.Nazwisko
-    /// HAVING COUNT(*) > 1;
-    /// </summary>
+    
     public IEnumerable<string> Wyzwanie01_StudenciZWiecejNizJednymAktywnymPrzedmiotem()
     {
         var query = from s in DaneUczelni.Studenci
@@ -194,22 +181,16 @@ public sealed class ZadaniaLinq
         
         return query;
     }
-
-    /// <summary>
-    /// Wyzwanie:
-    /// Wypisz przedmioty startujące w kwietniu 2026, dla których żaden zapis nie ma jeszcze oceny końcowej.
-    ///
-    /// SQL:
-    /// SELECT p.Nazwa
-    /// FROM Przedmioty p
-    /// JOIN Zapisy z ON p.Id = z.PrzedmiotId
-    /// WHERE MONTH(p.DataStartu) = 4 AND YEAR(p.DataStartu) = 2026
-    /// GROUP BY p.Nazwa
-    /// HAVING SUM(CASE WHEN z.OcenaKoncowa IS NOT NULL THEN 1 ELSE 0 END) = 0;
-    /// </summary>
+    
     public IEnumerable<string> Wyzwanie02_PrzedmiotyStartujaceWKwietniuBezOcenKoncowych()
     {
-        throw Niezaimplementowano(nameof(Wyzwanie02_PrzedmiotyStartujaceWKwietniuBezOcenKoncowych));
+        var query = from p in DaneUczelni.Przedmioty
+            where p.DataStartu.Month == 4 && p.DataStartu.Year == 2026
+            join z in DaneUczelni.Zapisy on p.Id equals z.PrzedmiotId into zapisyGroup
+            where zapisyGroup.All(z => z.OcenaKoncowa == null)
+            select p.Nazwa;
+        
+        return query;
     }
 
     /// <summary>
