@@ -192,23 +192,19 @@ public sealed class ZadaniaLinq
         
         return query;
     }
-
-    /// <summary>
-    /// Wyzwanie:
-    /// Oblicz średnią ocen końcowych dla każdego prowadzącego na podstawie wszystkich jego przedmiotów.
-    /// Pomiń brakujące oceny, ale pozostaw samych prowadzących w wyniku.
-    ///
-    /// SQL:
-    /// SELECT pr.Imie, pr.Nazwisko, AVG(z.OcenaKoncowa)
-    /// FROM Prowadzacy pr
-    /// LEFT JOIN Przedmioty p ON p.ProwadzacyId = pr.Id
-    /// LEFT JOIN Zapisy z ON z.PrzedmiotId = p.Id
-    /// WHERE z.OcenaKoncowa IS NOT NULL
-    /// GROUP BY pr.Imie, pr.Nazwisko;
-    /// </summary>
+    
     public IEnumerable<string> Wyzwanie03_ProwadzacyISredniaOcenNaIchPrzedmiotach()
     {
-        throw Niezaimplementowano(nameof(Wyzwanie03_ProwadzacyISredniaOcenNaIchPrzedmiotach));
+        var query = from pr in DaneUczelni.Prowadzacy
+            join p in DaneUczelni.Przedmioty on pr.Id equals p.ProwadzacyId into przedmiotyGroup
+            from p in przedmiotyGroup.DefaultIfEmpty()
+            join z in DaneUczelni.Zapisy on p.Id equals z.PrzedmiotId into zapisyGroup
+            from z in zapisyGroup.DefaultIfEmpty()
+            where z.OcenaKoncowa != null
+            group z by new { pr.Imie, pr.Nazwisko } into g
+            select $"{g.Key.Imie} {g.Key.Nazwisko}: {(g.Average(x => x.OcenaKoncowa) == 0 ? "Brak ocen" : g.Average(x => x.OcenaKoncowa).ToString())}";
+
+        return query;
     }
 
     /// <summary>
