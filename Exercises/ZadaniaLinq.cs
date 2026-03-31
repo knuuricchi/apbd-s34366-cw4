@@ -158,19 +158,7 @@ public sealed class ZadaniaLinq
 
         return query;
     }
-
-    /// <summary>
-    /// Zadanie:
-    /// Dla każdego studenta znajdź jego najwyższą ocenę końcową.
-    /// Pomiń studentów, którzy nie mają jeszcze żadnej oceny.
-    ///
-    /// SQL:
-    /// SELECT s.Imie, s.Nazwisko, MAX(z.OcenaKoncowa)
-    /// FROM Studenci s
-    /// JOIN Zapisy z ON s.Id = z.StudentId
-    /// WHERE z.OcenaKoncowa IS NOT NULL
-    /// GROUP BY s.Imie, s.Nazwisko;
-    /// </summary>
+    
     public IEnumerable<string> Zadanie16_NajwyzszaOcenaKazdegoStudenta()
     {
         var query = from s in DaneUczelni.Studenci
@@ -197,7 +185,14 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Wyzwanie01_StudenciZWiecejNizJednymAktywnymPrzedmiotem()
     {
-        throw Niezaimplementowano(nameof(Wyzwanie01_StudenciZWiecejNizJednymAktywnymPrzedmiotem));
+        var query = from s in DaneUczelni.Studenci
+            join z in DaneUczelni.Zapisy on s.Id equals z.StudentId
+            where z.CzyAktywny
+            group z by new { s.Imie, s.Nazwisko } into g
+            where g.Count() > 1
+            select $"{g.Key.Imie} {g.Key.Nazwisko}: {g.Count()} aktywnych przedmiotow";
+        
+        return query;
     }
 
     /// <summary>
